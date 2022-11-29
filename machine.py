@@ -10,18 +10,13 @@ class Machine(object):
 
         #save the config object sent from the caller to this object for future use.
         self.config = config
-        
-        #this is a legacy bit that needs to be re-written, but it takes in the odoo databse id of the 
-        #equiptment in maintence and saves if for future use.
-        self.asset_id = int(asset_id) or False
 
         #place holder for the odoo equipment object for future use.
         self.equipment_id = False 
         
         #fetches the odoo equipment object from the maintence module, if it exists, and saves it in the place
         #holder created above. if no object exists in odoo, the equipment id will stay False
-        if self.asset_id:
-            self.equipment_id = self.api.env['maintenance.equipment'].browse(self.asset_id)
+        self.equipment_id = self.api.env['maintenance.equipment'].browse(self.config['equipment_id'])
         
         #creates a logger object specific to this peice of equiptment, this help to know where logging entries
         #originate in the log files.
